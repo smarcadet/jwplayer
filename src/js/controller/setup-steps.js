@@ -26,10 +26,6 @@ define([
                 method: _loadIntersectionObserverPolyfill,
                 depends: []
             },
-            LOAD_SKIN: {
-                method: _loadSkin,
-                depends: []
-            },
             LOAD_PLAYLIST: {
                 method: _loadPlaylist,
                 depends: []
@@ -41,7 +37,6 @@ define([
             SETUP_VIEW: {
                 method: _setupView,
                 depends: [
-                    'LOAD_SKIN',
                     'LOAD_XO_POLYFILL'
                 ]
             },
@@ -152,63 +147,6 @@ define([
             error(resolve, 'Error loading player', 'No playable sources found');
         }
     }
-
-    function skinToLoad(skin, base) {
-        var skinPath;
-
-        if (_.contains(Constants.SkinsLoadable, skin)) {
-            skinPath = base + 'skins/' + skin + '.css';
-        }
-
-        return skinPath;
-    }
-
-    function isSkinLoaded(skinPath) {
-        var ss = document.styleSheets;
-        for (var i = 0, max = ss.length; i < max; i++) {
-            if (ss[i].href === skinPath) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    function _loadSkin(resolve, _model) {
-        var skinName = _model.get('skin');
-        var skinUrl = _model.get('skinUrl');
-
-        // If skin is built into player, there is nothing to load
-        if (_.contains(Constants.SkinsIncluded, skinName)) {
-            resolve();
-            return;
-        }
-
-        if (!skinUrl) {
-            // if a user doesn't specify a url, we assume it comes from our CDN or config.base
-            skinUrl = skinToLoad(skinName, _model.get('base'));
-        }
-
-        if (_.isString(skinUrl) && !isSkinLoaded(skinUrl)) {
-            _model.set('skin-loading', true);
-
-            var isStylesheet = true;
-            var loader = new ScriptLoader(skinUrl, isStylesheet);
-
-            loader.addEventListener(events.COMPLETE, function() {
-                _model.set('skin-loading', false);
-            });
-            loader.addEventListener(events.ERROR, function() {
-                _model.set('skin', 'seven'); // fall back to seven skin
-                _model.set('skin-loading', false);
-            });
-
-            loader.load();
-        }
-
-        // Control elements are hidden by the loading flag until it is ready
-        resolve();
-    }
-
 
     function _setupView(resolve, _model, _api, _view) {
         _model.setAutoStart();

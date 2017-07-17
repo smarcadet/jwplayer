@@ -20,7 +20,7 @@ define([
     'view/error',
     'controller/events-middleware',
 ], function(Config, InstreamAdapter, _, Setup, Captions, Model, Storage,
-            Playlist, PlaylistLoader, utils, View, Events, changeStateEvent, states, events, error, eventsMiddleware) {
+            Playlist, PlaylistLoader, utils, View, Events, changeStateEvent, states, events, viewError, eventsMiddleware) {
 
     function _queueCommand(command) {
         return function() {
@@ -948,7 +948,7 @@ define([
 
         setupError: function(evt) {
             var message = evt.message;
-            var errorElement = utils.createElement(error(this._model.get('id'), this._model.get('skin'), message));
+            var errorElement = utils.createElement(viewError(this._model.get('id'), message));
 
             var width = this._model.get('width');
             var height = this._model.get('height');

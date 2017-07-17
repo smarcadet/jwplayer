@@ -349,7 +349,6 @@ define([
                     _resizeMedia();
                 }, this);
             });
-            _model.change('skin', onSkinChange, this);
             _model.change('stretching', onStretchChange);
             _model.change('flashBlocked', onFlashBlockedChange);
 
@@ -369,13 +368,6 @@ define([
             }
             if (_isIE) {
                 utils.addClass(_playerElement, 'jw-ie');
-            }
-            // Hide control elements until skin is loaded
-            if (_model.get('skin-loading') === true) {
-                utils.addClass(_playerElement, 'jw-flag-skin-loading');
-                _model.once('change:skin-loading', function () {
-                    utils.removeClass(_playerElement, 'jw-flag-skin-loading');
-                });
             }
             this.handleColorOverrides();
 
@@ -514,10 +506,6 @@ define([
                 over: () => _controls && _controls.userActive()
             });
             return clickHandler;
-        }
-
-        function onSkinChange(model, newSkin) {
-            utils.replaceClass(_playerElement, /jw-skin-\S+/, newSkin ? ('jw-skin-' + newSkin) : '');
         }
 
         function onStretchChange(model, newVal) {
