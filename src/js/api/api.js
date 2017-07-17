@@ -1,4 +1,5 @@
 import instances from 'api/players';
+import * as Environment from 'environment/environment';
 
 define([
     'api/timer',
@@ -356,6 +357,22 @@ define([
             },
 
             /**
+             * Environment information for the current session, return by {@link Api#getEnvironment jwplayer().getEnvironment()}
+             * @typedef {object} Environment
+             * @property {BrowserEnvironment} Browser - Information about the current session's browser.
+             * @property {OSEnvironment} OS - Information about the current session's operating system.
+             * @property {FeatureEnvironment} Features - Information about the current sessions's supported features.
+             */
+
+            /**
+             * Gets information about the current session's environment
+             * @returns {Environment} An object detailing the current session's browser, operating system, and supported features.
+             */
+            getEnvironment() {
+                return Environment;
+            },
+
+            /**
              * Gets the player's fullscreen state.
              * @returns {boolean} Whether or not the player is in fullscreen mode.
              */
@@ -372,27 +389,11 @@ define([
             },
 
             /**
-             * Alias of `getPlaylistIndex()`
-             * @deprecated TODO: in version 8.0.0-0
-             */
-            getItem() {
-                return this.getPlaylistIndex();
-            },
-
-            /**
              * Gets all metadata for the current playlist item.
              * @returns {object}
              */
             getItemMeta() {
                 return _controller.get('itemMeta') || {};
-            },
-
-            /**
-             * Alias of `getItemMeta()`
-             * @deprecated TODO: in version 8.0.0-0
-             */
-            getMeta() {
-                return this.getItemMeta();
             },
 
             /**
@@ -1019,27 +1020,6 @@ define([
          * @param {boolean} toggle - Specifies whether ad playback should be paused or resumed.
          */
         pauseAd(/* eslint-disable no-unused-vars */toggle/* eslint-enable no-unused-vars */) {},
-
-        /**
-         * @deprecated since version 7.0. TODO: remove in 8.0.0-0
-         */
-        getRenderingMode() {
-            return 'html5';
-        },
-
-        /**
-         * @deprecated TODO: in version 8.0.0-0
-         */
-        dispatchEvent() {
-            this.trigger.apply(this, arguments);
-        },
-
-        /**
-         * @deprecated TODO: in version 8.0.0-0
-         */
-        removeEventListener() {
-            this.off.apply(this, arguments);
-        }
     });
 
     return Api;
