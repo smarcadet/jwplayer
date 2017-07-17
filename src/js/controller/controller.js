@@ -1,6 +1,8 @@
 import setConfig from 'api/set-config';
 import instances from 'api/players';
 import { Browser, OS } from 'environment/environment';
+import ApiQueueDecorator from '../api/api-queue';
+import { streamType } from '../utils/stream-type';
 
 define([
     'api/config',
@@ -123,9 +125,9 @@ define([
             _model.on('change:state', changeStateEvent, this);
 
             _model.on('change:duration', function(model, duration) {
-                var minDvrWindow = model.get('minDvrWindow');
-                var streamType = utils.streamType(duration, minDvrWindow);
-                model.setStreamType(streamType);
+                const minDvrWindow = model.get('minDvrWindow');
+                const type = streamType(duration, minDvrWindow);
+                model.setStreamType(type);
             });
 
             _model.on('change:castState', function(model, evt) {

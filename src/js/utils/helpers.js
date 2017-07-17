@@ -5,17 +5,15 @@ define([
     'utils/dom',
     'utils/css',
     'utils/parser',
-    'utils/id3Parser',
     'utils/ajax',
     'utils/validator',
     'utils/playerutils',
     'api/timer',
-    'utils/trycatch',
-    'utils/stream-type',
-    'utils/quality-labels'
-], function(strings, _, browser, dom, css, parser, id3Parser, ajax, validator, playerutils, Timer, trycatch, streamType, qualityLabels) {
+    'utils/trycatch' // TODO: trycatch This should be removed from utils
+], function(strings, _, browser, dom, css, parser, ajax, validator, playerutils, Timer, trycatch) {
     var utils = {};
 
+    // TODO: export log function
     utils.log = function () {
         /* eslint no-console: 0 */
         if (!window.console) {
@@ -64,7 +62,7 @@ define([
 
     utils.Timer = Timer;
 
-    _.extend(utils, parser, id3Parser, validator, browser, ajax, dom, css, playerutils, trycatch, streamType, qualityLabels);
+    _.extend(utils, parser, validator, browser, ajax, dom, css, playerutils, trycatch);
 
     return utils;
 });

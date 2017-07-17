@@ -1,3 +1,5 @@
+// TODO: move to providers/utils | ES6 export default `parseID3`
+
 define([
     'utils/underscore'
 ], function(_) {
